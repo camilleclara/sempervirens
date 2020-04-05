@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Question;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,6 +15,7 @@ class HomepageController extends AbstractController
      */
     public function index(Request $req)
     {
-        return new Response("Le messag est " . $req->get('message'));
+        return new Response("Le message est " . $req->get('message'));
     }
+
 }
