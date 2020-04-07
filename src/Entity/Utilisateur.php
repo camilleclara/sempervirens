@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +42,16 @@ class Utilisateur
      * @ORM\Column(type="string", length=255)
      */
     private $prenom;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Choix", mappedBy="utilisateur")
+     */
+    private $choices;
+
+    public function __construct()
+    {
+        $this->choices = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -114,6 +126,37 @@ class Utilisateur
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Choix[]
+     */
+    public function getChoices(): Collection
+    {
+        return $this->choices;
+    }
+
+    public function addChoice(Choix $choice): self
+    {
+        if (!$this->choices->contains($choice)) {
+            $this->choices[] = $choice;
+            $choice->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChoice(Choix $choice): self
+    {
+        if ($this->choices->contains($choice)) {
+            $this->choices->removeElement($choice);
+            // set the owning side to null (unless already changed)
+            if ($choice->getUtilisateur() === $this) {
+                $choice->setUtilisateur(null);
+            }
+        }
 
         return $this;
     }

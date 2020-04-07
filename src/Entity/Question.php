@@ -29,9 +29,15 @@ class Question
      */
     private $reponses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Choix", mappedBy="question")
+     */
+    private $choices;
+
     public function __construct()
     {
         $this->reponses = new ArrayCollection();
+        $this->choices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,6 +94,37 @@ class Question
             // set the owning side to null (unless already changed)
             if ($reponse->getQuestion() === $this) {
                 $reponse->setQuestion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Choix[]
+     */
+    public function getChoices(): Collection
+    {
+        return $this->choices;
+    }
+
+    public function addChoice(Choix $choice): self
+    {
+        if (!$this->choices->contains($choice)) {
+            $this->choices[] = $choice;
+            $choice->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChoice(Choix $choice): self
+    {
+        if ($this->choices->contains($choice)) {
+            $this->choices->removeElement($choice);
+            // set the owning side to null (unless already changed)
+            if ($choice->getQuestion() === $this) {
+                $choice->setQuestion(null);
             }
         }
 

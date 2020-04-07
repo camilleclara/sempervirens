@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomepageController!{% endblock %}
+
+{% block body %}
+<form action="{{path('register_user')}}" method="POST">
+    <input type="text" name="nom" placeholder="nom">
+    <input type="text" name="prenom" placeholder="prenom">
+    <input type="text" name="mail" placeholder="mail">
+    <input type="text" name="pseudo" placeholder="pseudo">
+    <input type="password" name="password" placeholder="password">
+    {# <p>FIRST QUESTION WRITTEN HERE</p> #}
+    {# <label for="first">FIRST</label>
+    <input type="radio" id="first" name="firstQ" value="1"> <br>
+    <label for="second">SECOND</label>
+    <input type="radio" id="second" name="firstQ" value="2"> <br>
+    <label for="third">THIRD</label>
+    <input type="radio" id="third" name="firstQ" value="3"> <br>
+    <label for="third">FOURTH</label>
+    <input type="radio" id="fourth" name="firstQ" value="4"> <br> #}
+    <button>SEND</button>
+</form>
+{% endblock %}

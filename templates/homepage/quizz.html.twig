@@ -3,6 +3,8 @@
 {% block title %}Hello HomepageController!{% endblock %}
 
 {% block body %}
-<a href="{{path('sign_in')}}">SIGN IN</a>
-<a href="{{path('sign_up')}}">SIGN UP</a>
+<form action="{{path('quizz_me_again')}}" method="POST">
+    {{page}}
+    <button>SEND</button>
+</form>
 {% endblock %}

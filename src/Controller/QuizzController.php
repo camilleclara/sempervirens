@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Question;
 use App\Entity\Reponse;
+use App\Entity\Question;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class QuizzController extends AbstractController
 {
@@ -17,7 +18,7 @@ class QuizzController extends AbstractController
         return $reponses;
     }
     /**
-     * @Route("/quizz/questions", name="quizzQuestions")
+     * @Route("/trolilol", name="patata")
      */
     public function index()
     {
@@ -28,22 +29,24 @@ class QuizzController extends AbstractController
         return $this->render('quizz/index.html.twig', ['questions'=>$questions]);
     }
     /**
-     * @Route("/quizz/test", name="quizz")
+     * @Route("jhvhv", name="potato")
      */
-    public function getQandA()
+    public function quizz(Request $req)
     {
+        $num = $req->get('question');
         //instanciation du repository de base, prééxistant dans symfony
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Question::class);
-        $q = $rep->findOneBy(['id'=>1]);
+        $q = $rep->findOneBy(['id'=>$num]);
         $question = $q->getTexte();
 
         $r = $q->getReponses();
         $reponses = [];
-        for ($i = 0; $i < count($r)-1; $i++){
-           $new = $r[$i]->getTexte();
-           $reponses[] = $new;
+        for ($i = 0; $i < count($r); $i++){
+           $reponses[$r[$i]->getPoints()] = $r[$i]->getTexte();
         }
+        dd($question, $reponses);
         return $this->render('quizz/index.html.twig', ['reponses'=>$reponses, 'question'=>$question]);
     }
+
 }
